@@ -32,9 +32,9 @@
       <button
         class="smallTitles"
         id="afterTitle"
-        v-on:click="component = 'after'"
+        v-on:click="component = 'later'"
       >
-        After
+        Later
       </button>
     </div>
     <component :is="component"></component>
@@ -48,7 +48,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import CurrentDate from "@/components/CurrentDate.vue";
 import WeatherDataBlocks from "@/components/WeatherDataBlocks.vue";
 import TomorrowWeatherBlock from "@/components/TomorrowWeatherBlock.vue";
-import AfterWeatherBlock from "@/components/AfterWeatherBlock";
+import LaterWeatherBlock from "@/components/LaterWeatherBlock";
 import AdditionalInfo from "@/components/AdditionalInfo.vue";
 
 export default {
@@ -58,7 +58,7 @@ export default {
     CurrentDate,
     'today': WeatherDataBlocks,
     'tomorrow': TomorrowWeatherBlock,
-    'after': AfterWeatherBlock,
+    'later': LaterWeatherBlock,
     AdditionalInfo
   },
   data() {

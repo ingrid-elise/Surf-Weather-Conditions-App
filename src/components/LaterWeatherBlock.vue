@@ -3,11 +3,10 @@
     <div class="conditions">
       <div id="conditionsCurrently" class="conditionsCurrentlyClass">
         <div class="conditionsFlex">
-          <p class="smallTitles">7am after</p>
+          <p class="smallTitles">7 am</p>
           <p class="pConditions" id="airTempId">
-            {{  }} °C
+            {{ Math.round(this.getSevenAmTemp()) }} °C
           </p>
-          <p class="pConditions" id="airTempIdTomorrow">{{  }}</p>
           <div class="waveHeightContainer">
             <img
               alt="wave height icon"
@@ -15,7 +14,7 @@
               class="wave-height-icon"
             />
             <p class="pConditions" id="waveHeightId">
-              {{  }} m
+              {{ this.getSevenWaveHt() }} m
             </p>
           </div>
           <div class="swellDirectionContainer">
@@ -25,7 +24,7 @@
               class="swell-direction-icon"
             />
             <p class="pConditions" id="swellDirectionId">
-              {{ }}
+              {{ degToCompass(this.getSevenSwellHt()) }}
             </p>
           </div>
           <div class="windDirectionContainer">
@@ -35,9 +34,9 @@
               class="wind-direction-icon"
             />
             <p class="pConditions" id="windSpeedDirection">
-              {{  }} m/sec
+              {{ Math.round(this.getSevenWindDirection()) }} m/sec
               <br />
-              {{  }}
+              {{ degToCompass(this.getSevenWindDirection()) }}
             </p>
           </div>
         </div>
@@ -45,9 +44,9 @@
 
       <div id="conditionsThreeHoursAhead" class="conditionsCurrentlyClass">
         <div class="conditionsFlex">
-          <p class="smallTitles" id="titleThreeHoursAhead"> Midday</p>
+          <p class="smallTitles" id="titleThreeHoursAhead">Midday</p>
           <p class="pConditions" id="airTempId">
-            {{  }} °C
+            {{ Math.round(this.getMiddayTemp()) }} °C
           </p>
           <div class="waveHeightContainer">
             <img
@@ -56,7 +55,7 @@
               class="wave-height-icon"
             />
             <p class="pConditions" id="waveHeightThreeAhead">
-              {{  }} m
+              {{ this.getMiddayWaveHt() }} m
             </p>
           </div>
           <div class="swellDirectionContainer">
@@ -66,7 +65,7 @@
               class="swell-direction-icon"
             />
             <p class="pConditions" id="swellDirectionThree">
-              {{  }}
+              {{ degToCompass(this.getMiddaySwellHt()) }}
             </p>
           </div>
           <div class="windDirectionContainer">
@@ -76,9 +75,9 @@
               class="wind-direction-icon"
             />
             <p class="pConditions" id="windSpeedDirectionThree">
-              {{  }} m/sec
+              {{ Math.round(this.getMiddayWindDirection()) }} m/sec
               <br />
-              {{  }}
+              {{ degToCompass(this.getMiddayWindDirection()) }}
             </p>
           </div>
         </div>
@@ -86,9 +85,9 @@
 
       <div id="conditionsSixHoursAhead" class="conditionsCurrentlyClass">
         <div class="conditionsFlex">
-          <p class="smallTitles" id="titleSixHoursAhead">Afternoon</p>
+          <p class="smallTitles" id="titleSixHoursAhead">6 pm</p>
           <p class="pConditions" id="airTempId">
-            {{  }} °C
+            {{ Math.round(this.getSixPmTemp()) }} °C
           </p>
           <div class="waveHeightContainer">
             <img
@@ -97,7 +96,7 @@
               class="wave-height-icon"
             />
             <p class="pConditions" id="waveHeightSixAhead">
-              {{  }} m
+              {{ this.getSixPmWaveHt() }} m
             </p>
           </div>
           <div class="swellDirectionContainer">
@@ -107,7 +106,7 @@
               class="swell-direction-icon"
             />
             <p class="pConditions" id="swellDirectionSix">
-              {{  }}
+              {{ degToCompass(this.getMiddaySwellHt()) }}
             </p>
           </div>
           <div class="windDirectionContainer">
@@ -117,9 +116,9 @@
               class="wind-direction-icon"
             />
             <p class="pConditions" id="windSpeedDirectionSix">
-              {{  }} m/sec
+              {{ Math.round(this.getSixPmWindDirection()) }} m/sec
               <br />
-              {{  }}
+              {{ degToCompass(this.getSixPmWindDirection()) }}
             </p>
           </div>
         </div>
@@ -130,11 +129,11 @@
 
 <script>
 export default {
-  name: "AfterWeatherBlock",
+  name: "LaterWeatherBlock",
   
   data() {
     return {
-      weatherData: "",
+      weatherData: {},
       params3: [
         "airTemperature",
         "waveHeight",
@@ -169,34 +168,137 @@ export default {
     },
     getEndTime() {
       let datetime = Math.round(new Date().getTime() / 1000); // gets new date/time
-      return datetime + 86400 + 86400 + 86400 * this.timeframe; // adds 3 days in milisec to current date/time and updates timeframe
+      return datetime + 86400 + 86400 + 86400 + 86400; // adds 4 days in milisec to current date/time and updates timeframe
     },
     getStartTime() {
       let datetime = Math.round(new Date().getTime() / 1000);
-      return datetime + 86400 * this.timeframe;
+      return datetime + 86400;
     },
-    getNewTime() {
+    getNewTime() { 
       const today = new Date();
       const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1); // getting tomorrow and adding 1 day (need to add 2 as 1 sometimes only showed current day, depending on what time of day it was)
+      tomorrow.setDate(tomorrow.getDate() + 2); // getting tomorrow and adding 2 day (need to add 2 as 1 sometimes only showed current day, depending on what time of day it was)
       const tomorrowISO = tomorrow.toISOString(); // converting to ISO string
       const tomorrowHour = tomorrowISO.slice(0, 11); // slicing off time
       const apiFormatTom = tomorrowHour + "07:00:00+00:00"; // adding 7am hours
-      console.log(apiFormatTom); // next 7am time
+    //   console.log(apiFormatTom); // 7am time in 2 days time
       return apiFormatTom;
     },
-    getSevenAm() {
-      let sevenAm = this.getNewTime();
-      console.log(sevenAm) // to clarify v-on:click is working
-      for (var i = 0; i < 48; i++) {
-        if (this.weatherData.hours[i].time === sevenAm) {
-          console.log(Math.round(this.weatherData.hours[i].airTemperature.sg))
-          console.log(this.weatherData.hours[i].waveHeight.sg)
-          console.log("seven am data showing"); // to clarify next 7am data point is showing
+    getMiddayTime() {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 2);
+      const tomorrowISO = tomorrow.toISOString();
+      const tomorrowHour = tomorrowISO.slice(0, 11);
+      const apiFormatTom = tomorrowHour + "12:00:00+00:00"; // adding to change to search for 12pm
+    //   console.log(apiFormatTom);
+      return apiFormatTom;
+    },
+    getSixPmTime(){
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 2);
+      const tomorrowISO = tomorrow.toISOString();
+      const tomorrowHour = tomorrowISO.slice(0, 11);
+      const apiFormatTom = tomorrowHour + "18:00:00+00:00"; // adding to changing to search for 6pm
+      return apiFormatTom;
+    },
+    getSevenAmTemp() {
+      let sevenAmTemp = this.getNewTime();
+      //console.log(sevenAmTemp) // to clarify v-on:click is working
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sevenAmTemp) {
           return this.weatherData.hours[i].airTemperature.sg; 
         }
       }
-      
+    },
+    getSevenWaveHt() {
+      let sevenAmWaveHt = this.getNewTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sevenAmWaveHt) {
+          return this.weatherData.hours[i].waveHeight.sg; 
+        }
+      }
+    },
+    getSevenSwellHt() {
+      let sevenAmSwellHt = this.getNewTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sevenAmSwellHt) {
+          return this.weatherData.hours[i].swellDirection.sg; 
+        }
+      }
+    }, 
+    getSevenWindDirection() {
+      let sevenAmWindDirection = this.getNewTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sevenAmWindDirection) {
+          return this.weatherData.hours[i].windDirection.sg; 
+        }
+      }
+    },
+    getMiddayTemp(){
+      let midday = this.getMiddayTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === midday){
+          return this.weatherData.hours[i].airTemperature.sg;
+        }
+      }
+    },
+    getMiddayWaveHt(){
+      let middayWaveHt = this.getMiddayTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === middayWaveHt) {
+          return this.weatherData.hours[i].waveHeight.sg;
+        }
+      }
+    },
+    getMiddaySwellHt(){
+      let middaySwellHt = this.getMiddayTime(); 
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === middaySwellHt) {
+          return this. weatherData.hours[i].swellDirection.sg;
+        }
+      }
+    },
+    getMiddayWindDirection(){
+      let middayWindDirection = this.getMiddayTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === middayWindDirection) {
+          return this.weatherData.hours[i].windDirection.sg;
+        }
+      }
+    },
+    getSixPmTemp(){
+      let sixpm = this.getSixPmTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sixpm){
+          return this.weatherData.hours[i].airTemperature.sg;
+        }
+      }
+    },
+    getSixPmWaveHt(){
+      let sixPmWaveHt = this.getSixPmTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sixPmWaveHt) {
+          return this.weatherData.hours[i].waveHeight.sg; 
+        }
+      }
+    },
+    getSixPmSwellHt(){
+      let sixPmSwellHt = this.getSixPmTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sixPmSwellHt){
+          return this.weatherData.hours[i].swellDirection.sg;
+        }
+      }
+    },
+    getSixPmWindDirection(){
+      let sixPmWindDirection = this.getSixPmTime();
+      for (var i = 0; i < 72; i++) {
+        if (this.weatherData.hours[i].time === sixPmWindDirection){
+          return this.weatherData.hours[i].windDirection.sg;
+        }
+      }
     },
     getSurfReport() {
       // function for API
