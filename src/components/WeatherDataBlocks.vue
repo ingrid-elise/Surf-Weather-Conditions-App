@@ -130,7 +130,6 @@
 <script>
 export default {
   name: "WeatherDataBlocks",
-//   props: ["weatherData"], // passes the weather data UP to the parent (Home)
   data() {
     return {
       weatherData: {},
@@ -173,28 +172,6 @@ export default {
     getStartTime() {
       let datetime = Math.round(new Date().getTime() / 1000);
       return datetime + 86400;
-    },
-    getNewTime() {
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1); // getting tomorrow and adding 1 day (need to add 2 as 1 sometimes only showed current day, depending on what time of day it was)
-      const tomorrowISO = tomorrow.toISOString(); // converting to ISO string
-      const tomorrowHour = tomorrowISO.slice(0, 11); // slicing off time
-      const apiFormatTom = tomorrowHour + "07:00:00+00:00"; // adding 7am hours
-      console.log(apiFormatTom); // next 7am time
-      return apiFormatTom;
-    },
-    getSevenAm() {
-      let sevenAm = this.getNewTime();
-      console.log(sevenAm) // to clarify v-on:click is working
-      for (var i = 0; i < 48; i++) {
-        if (this.weatherData.hours[i].time === sevenAm) {
-          console.log(Math.round(this.weatherData.hours[i].airTemperature.sg))
-          console.log(this.weatherData.hours[i].waveHeight.sg)
-          console.log("seven am data showing"); // to clarify next 7am data point is showing
-          return this.weatherData.hours[i].airTemperature.sg;
-        }
-      }
     },
     getSurfReport() {
       // function for API

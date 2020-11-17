@@ -130,7 +130,6 @@
 <script>
 export default {
   name: "TomorrowWeatherBlock",
-//   props: ["weatherData"], // passes the weather data UP to the parent (Home)
   data() {
     return {
       weatherData: "",
@@ -170,12 +169,10 @@ export default {
     getEndTime() {
       let datetime = Math.round(new Date().getTime() / 1000); // gets new date/time
       return datetime + 86400 + 86400 + 86400;
-    //   return datetime + 86400 + 86400 + 86400 * this.timeframe; // adds 3 days in milisec to current date/time and updates timeframe
     },
     getStartTime() {
       let datetime = Math.round(new Date().getTime() / 1000);
       return datetime + 86400;
-    //   return datetime + 86400 * this.timeframe;
     },
     getNewTime() {
       const today = new Date();
@@ -184,7 +181,7 @@ export default {
       const tomorrowISO = tomorrow.toISOString(); // converting to ISO string
       const tomorrowHour = tomorrowISO.slice(0, 11); // slicing off time
       const apiFormatTom = tomorrowHour + "07:00:00+00:00"; // adding 7am hours
-      console.log(apiFormatTom); // 7am tomorrow
+      // console.log(apiFormatTom); // 7am tomorrow
       return apiFormatTom;
     },
     getMiddayTime() {
@@ -210,9 +207,6 @@ export default {
     //   console.log(sevenAm) // to clarify v-on:click is working
       for (var i = 0; i < 48; i++) {
         if (this.weatherData.hours[i].time === sevenAm) {
-        //   console.log(Math.round(this.weatherData.hours[i].airTemperature.sg))
-        //   console.log(this.weatherData.hours[i].waveHeight.sg)
-        //   console.log("seven am data showing"); // to clarify next 7am data point is showing
           return this.weatherData.hours[i].airTemperature.sg; 
         }
       }
