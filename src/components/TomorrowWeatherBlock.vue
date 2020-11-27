@@ -133,6 +133,8 @@ export default {
   data() {
     return {
       weatherData: "",
+      weatherDataTemp: {},
+      apikey: "1c668929b33949458757d6807fb20968",
       params2: [
         "airTemperature",
         "waveHeight",
@@ -204,8 +206,8 @@ export default {
     },
     getSevenAmTemp() {
       let sevenAm = this.getNewTime();
-    //   console.log(sevenAm) // to clarify v-on:click is working
-      for (var i = 0; i < 48; i++) {
+    //   console.log(sevenAm) // to clarify v-on:click is working 
+      for (var i = 0; i < 48; i++) { 
         if (this.weatherData.hours[i].time === sevenAm) {
           return this.weatherData.hours[i].airTemperature.sg; 
         }
@@ -223,7 +225,7 @@ export default {
       let sevenAmSwellHt = this.getNewTime();
       for (var i = 0; i < 48; i++) {
         if (this.weatherData.hours[i].time === sevenAmSwellHt) {
-          return this.weatherData.hours[i].swellDirection.sg; 
+          return this.weatherData.hours[i].swellDirection.noaa; 
         }
       }
     }, 
@@ -231,7 +233,7 @@ export default {
       let sevenAmWindDirection = this.getNewTime();
       for (var i = 0; i < 48; i++) {
         if (this.weatherData.hours[i].time === sevenAmWindDirection) {
-          return this.weatherData.hours[i].windDirection.sg; 
+          return this.weatherData.hours[i].windDirection.noaa; 
         }
       }
     }, 
@@ -255,7 +257,7 @@ export default {
       let middaySwellHt = this.getMiddayTime(); 
       for (var i = 0; i < 48; i++) {
         if (this.weatherData.hours[i].time === middaySwellHt) {
-          return this. weatherData.hours[i].swellDirection.sg;
+          return this. weatherData.hours[i].swellDirection.noaa;
         }
       }
     },
@@ -263,7 +265,7 @@ export default {
       let middayWindDirection = this.getMiddayTime();
       for (var i = 0; i < 48; i++) {
         if (this.weatherData.hours[i].time === middayWindDirection) {
-          return this.weatherData.hours[i].windDirection.sg;
+          return this.weatherData.hours[i].windDirection.noaa;
         }
       }
     },
@@ -287,7 +289,7 @@ export default {
       let sixPmSwellHt = this.getSixPmTime();
       for (var i = 0; i < 48; i++) {
         if (this.weatherData.hours[i].time === sixPmSwellHt){
-          return this.weatherData.hours[i].swellDirection.sg;
+          return this.weatherData.hours[i].swellDirection.noaa;
         }
       }
     },
@@ -295,7 +297,7 @@ export default {
       let sixPmWindDirection = this.getSixPmTime();
       for (var i = 0; i < 48; i++) {
         if (this.weatherData.hours[i].time === sixPmWindDirection){
-          return this.weatherData.hours[i].windDirection.sg;
+          return this.weatherData.hours[i].windDirection.noaa;
         }
       }
     },
@@ -314,9 +316,18 @@ export default {
         .then(response => response.json())
         .then(data => (this.weatherData = data));
     },
+    getWeatherReport() {
+      // function for API for airTemp
+      fetch(
+        `https://api.weatherbit.io/v2.0/forecast/hourly?&lat=${-33.890842}&lon=${151.27429}&key=${this.apikey}&hours=48`,
+      )
+        .then(response => response.json())
+        .then(data => (this.weatherDataTemp = data));
+    },
   },
   mounted() {
     this.getSurfReport(); // makes the api load on page load
+    this.getWeatherReport(); // for air temp api
   }
 };
 </script>

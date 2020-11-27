@@ -224,7 +224,7 @@ export default {
       let sevenAmSwellHt = this.getNewTime();
       for (var i = 0; i < 72; i++) {
         if (this.weatherData.hours[i].time === sevenAmSwellHt) {
-          return this.weatherData.hours[i].swellDirection.sg; 
+          return this.weatherData.hours[i].swellDirection.noaa; 
         }
       }
     }, 
@@ -232,7 +232,7 @@ export default {
       let sevenAmWindDirection = this.getNewTime();
       for (var i = 0; i < 72; i++) {
         if (this.weatherData.hours[i].time === sevenAmWindDirection) {
-          return this.weatherData.hours[i].windDirection.sg; 
+          return this.weatherData.hours[i].windDirection.noaa; 
         }
       }
     },
@@ -256,7 +256,7 @@ export default {
       let middaySwellHt = this.getMiddayTime(); 
       for (var i = 0; i < 72; i++) {
         if (this.weatherData.hours[i].time === middaySwellHt) {
-          return this. weatherData.hours[i].swellDirection.sg;
+          return this. weatherData.hours[i].swellDirection.noaa;
         }
       }
     },
@@ -264,7 +264,7 @@ export default {
       let middayWindDirection = this.getMiddayTime();
       for (var i = 0; i < 72; i++) {
         if (this.weatherData.hours[i].time === middayWindDirection) {
-          return this.weatherData.hours[i].windDirection.sg;
+          return this.weatherData.hours[i].windDirection.noaa;
         }
       }
     },
@@ -288,7 +288,7 @@ export default {
       let sixPmSwellHt = this.getSixPmTime();
       for (var i = 0; i < 72; i++) {
         if (this.weatherData.hours[i].time === sixPmSwellHt){
-          return this.weatherData.hours[i].swellDirection.sg;
+          return this.weatherData.hours[i].swellDirection.noaa;
         }
       }
     },
@@ -296,7 +296,7 @@ export default {
       let sixPmWindDirection = this.getSixPmTime();
       for (var i = 0; i < 72; i++) {
         if (this.weatherData.hours[i].time === sixPmWindDirection){
-          return this.weatherData.hours[i].windDirection.sg;
+          return this.weatherData.hours[i].windDirection.noaa;
         }
       }
     },

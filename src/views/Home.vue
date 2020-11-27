@@ -94,6 +94,9 @@ html {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+.smallTitles:hover {
+  background-color: #ff9d29;
+}
 #todayFutureTitles {
   display: flex;
   flex-direction: row;

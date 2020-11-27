@@ -9,13 +9,16 @@
       <p class="pConditions" id="sunSet">
         Sunset <br />{{ dateFormat(new Date(sunMoonData.data[0].sunset)) }}
       </p>
+      <p class="pConditions" id="waterTemp"> 
+        Water Temp <br /> {{Math.round(weatherData.hours[0].waterTemperature.sg)}}
+      </p>
       <p class="pConditions" id="tideMoon">
         Tide <br />
         {{ tideData.data[0].type }} at
         {{ dateFormat(new Date(tideData.data[0].time)) }}
       </p>
       <p class="pConditions" id="wavePeriodId">
-        Wave period <br />{{ Math.round(weatherData.hours[0].wavePeriod.sg) }}
+        Wave Period <br />{{ Math.round(weatherData.hours[0].wavePeriod.noaa) }}
       </p>
       <p class="pConditions" id="moonInput">
         Moon <br />
@@ -42,7 +45,7 @@ export default {
   name: "AdditionalInfo",
   data() {
     return {
-      params: ["wavePeriod"],
+      params: ["wavePeriod", "waterTemperature"],
       params2: ["sunrise", "sunset", "moonPhase"],
       weatherData: "",
       sunMoonData: "",

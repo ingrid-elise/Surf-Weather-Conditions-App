@@ -5,7 +5,7 @@
         <div class="conditionsFlex">
           <p class="smallTitles">Currently</p>
           <p class="pConditions" id="airTempId">
-            {{ Math.round(weatherData.hours[0].airTemperature.sg) }} °C
+            {{ Math.round(weatherDataTemp.data[0].temp) }} °C   
           </p>
           <div class="waveHeightContainer">
             <img
@@ -14,7 +14,7 @@
               class="wave-height-icon"
             />
             <p class="pConditions" id="waveHeightId">
-              {{ weatherData.hours[0].waveHeight.sg }} m
+              {{ weatherData.hours[0].waveHeight.sg }} m 
             </p>
           </div>
           <div class="swellDirectionContainer">
@@ -24,7 +24,7 @@
               class="swell-direction-icon"
             />
             <p class="pConditions" id="swellDirectionId">
-              {{ degToCompass(weatherData.hours[0].swellDirection.sg) }}
+              {{ degToCompass(weatherData.hours[0].swellDirection.noaa) }}
             </p>
           </div>
           <div class="windDirectionContainer">
@@ -34,9 +34,9 @@
               class="wind-direction-icon"
             />
             <p class="pConditions" id="windSpeedDirection">
-              {{ Math.round(weatherData.hours[0].windDirection.sg) }} m/sec
+              {{ Math.round(weatherData.hours[0].windDirection.noaa) }} m/sec
               <br />
-              {{ degToCompass(weatherData.hours[0].windDirection.sg) }}
+              {{ degToCompass(weatherData.hours[0].windDirection.noaa) }}              
             </p>
           </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="conditionsFlex">
           <p class="smallTitles" id="titleThreeHoursAhead">+ 3 hours</p>
           <p class="pConditions" id="airTempId">
-            {{ Math.round(weatherData.hours[3].airTemperature.sg) }} °C
+            {{ Math.round(weatherDataTemp.data[3].temp) }} °C
           </p>
           <div class="waveHeightContainer">
             <img
@@ -65,7 +65,7 @@
               class="swell-direction-icon"
             />
             <p class="pConditions" id="swellDirectionThree">
-              {{ degToCompass(weatherData.hours[3].swellDirection.sg) }}
+              {{ degToCompass(weatherData.hours[3].swellDirection.noaa) }}
             </p>
           </div>
           <div class="windDirectionContainer">
@@ -75,9 +75,9 @@
               class="wind-direction-icon"
             />
             <p class="pConditions" id="windSpeedDirectionThree">
-              {{ Math.round(weatherData.hours[3].windDirection.sg) }} m/sec
+              {{ Math.round(weatherData.hours[3].windDirection.noaa) }} m/sec
               <br />
-              {{ degToCompass(weatherData.hours[3].windDirection.sg) }}
+              {{ degToCompass(weatherData.hours[3].windDirection.noaa) }}
             </p>
           </div>
         </div>
@@ -87,7 +87,7 @@
         <div class="conditionsFlex">
           <p class="smallTitles" id="titleSixHoursAhead">+ 6 hours</p>
           <p class="pConditions" id="airTempId">
-            {{ Math.round(weatherData.hours[6].airTemperature.sg) }} °C
+            {{ Math.round(weatherDataTemp.data[6].temp) }} °C
           </p>
           <div class="waveHeightContainer">
             <img
@@ -106,7 +106,7 @@
               class="swell-direction-icon"
             />
             <p class="pConditions" id="swellDirectionSix">
-              {{ degToCompass(weatherData.hours[6].swellDirection.sg) }}
+              {{ degToCompass(weatherData.hours[6].swellDirection.noaa) }}
             </p>
           </div>
           <div class="windDirectionContainer">
@@ -116,9 +116,9 @@
               class="wind-direction-icon"
             />
             <p class="pConditions" id="windSpeedDirectionSix">
-              {{ Math.round(weatherData.hours[6].windDirection.sg) }} m/sec
+              {{ Math.round(weatherData.hours[6].windDirection.noaa) }} m/sec
               <br />
-              {{ degToCompass(weatherData.hours[6].windDirection.sg) }}
+              {{ degToCompass(weatherData.hours[6].windDirection.noaa) }}
             </p>
           </div>
         </div>
@@ -133,6 +133,9 @@ export default {
   data() {
     return {
       weatherData: {},
+      weatherDataTemp: {},
+      appid: "86043b7267e3ed491c42805b2e2a2fdc",
+      apikey: "1c668929b33949458757d6807fb20968",
       params: [
         "airTemperature",
         "waveHeight",
@@ -174,7 +177,7 @@ export default {
       return datetime + 86400;
     },
     getSurfReport() {
-      // function for API
+      // function for API from StormGlass
       const headers = {
         Authorization:
           "411512a6-b996-11ea-9409-0242ac130002-41151364-b996-11ea-9409-0242ac130002"
@@ -188,9 +191,18 @@ export default {
         .then(response => response.json())
         .then(data => (this.weatherData = data));
     },
+    getWeatherReport() {
+      // function for API for airTemp
+      fetch(
+        `https://api.weatherbit.io/v2.0/forecast/hourly?&lat=${-33.890842}&lon=${151.27429}&key=${this.apikey}&hours=48`,
+      )
+        .then(response => response.json())
+        .then(data => (this.weatherDataTemp = data));
+    },
   },
   mounted() {
     this.getSurfReport(); // makes the api load on page load
+    this.getWeatherReport(); // for air temp api
   },
 };
 </script>

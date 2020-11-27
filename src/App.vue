@@ -12,6 +12,7 @@
         <ul class="sidebarMenuInner">
           <li><router-link to="/">surf</router-link></li>
           <li><router-link to="/about">about</router-link></li>
+          <li><router-link to="/education">learn</router-link></li>
         </ul>
       </div>
     </div>
@@ -29,7 +30,6 @@
 }
 
 #nav {
-  padding: 10px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -75,16 +75,17 @@
 .sidebarMenuInner {
   margin: 0;
   padding: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none;
 }
 .sidebarMenuInner li {
   list-style: none;
   color: #2c3e50;
   text-transform: uppercase;
   font-weight: bold;
-  padding: 10px;
+  margin-top: 30px;
+  margin-left: 15px;
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
 }
 .sidebarMenuInner li span {
   display: block;

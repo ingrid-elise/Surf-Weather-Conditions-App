@@ -15,11 +15,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #about {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 20vw;
+    height: 100vh;
+    background-color: #38505c;
+    color: white;
 }
 </style>
